@@ -42,6 +42,15 @@ pub fn install_location(component: Component) -> Option<PathBuf> {
         AndroidSdkNdkTools => {
             Some("Editor/Data/PlaybackEngines/AndroidPlayer/SDK/tools")
         }
+        LinuxMono => {
+            Some("Editor/Data/PlaybackEngines/LinuxStandaloneSupport/Variations/linux64_player_development_mono")
+        }
+        LinuxServer => {
+            Some("Editor/Data/PlaybackEngines/LinuxStandaloneSupport/Variations/linux64_server_development_mono")
+        }
+        LinuxIL2CPP => {
+            Some("Editor/Data/PlaybackEngines/LinuxStandaloneSupport/Variations/linux64_player_nondevelopment_il2cpp")
+        }
         WebGl => Some("Editor/Data/PlaybackEngines/WebGLSupport"),
         _ => None,
     };
