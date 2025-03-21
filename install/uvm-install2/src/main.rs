@@ -59,7 +59,21 @@ fn main() {
     set_loglevel(opt.debug.then(|| 2).unwrap_or(opt.verbose));
 
     let version = opt.version;
-    let modules = opt.modules;
+    let mut modules = opt.modules;
+    if let Some(ref mut modules) = modules {
+        let android_all = modules.iter().position(|m| *m == Component::AndroidAll);
+        if let Some(idx) = android_all {
+            modules.remove(idx);
+
+            modules.push(Component::Android);
+            modules.push(Component::AndroidNdk);
+            modules.push(Component::AndroidOpenJdk);
+            modules.push(Component::AndroidSdkNdkTools);
+            modules.push(Component::AndroidSdkPlatforms);
+            modules.push(Component::AndroidSdkBuildTools);
+            modules.push(Component::AndroidSdkPlatformTools);
+        }
+    }
     let install_sync = opt.sync;
     let destination = opt.destination;
 

@@ -41,6 +41,8 @@ pub enum Component {
     AndroidNdk,
     #[serde(rename = "Android-Open-Jdk")]
     AndroidOpenJdk,
+    #[serde(rename = "Android-All")]
+    AndroidAll,
     #[serde(rename = "iOS")]
     Ios,
     TvOs,
@@ -312,6 +314,7 @@ impl fmt::Display for Component {
             AndroidSdkNdkTools => write!(f, "android-sdk-ndk-tools"),
             AndroidNdk => write!(f, "android-ndk"),
             AndroidOpenJdk => write!(f, "android-open-jdk"),
+            AndroidAll => write!(f, "android-all"),
             Ios => write!(f, "ios"),
             TvOs => write!(f, "tvos"),
             AppleTV => write!(f, "appletv"),
@@ -374,6 +377,7 @@ impl FromStr for Component {
             "android-sdk-ndk-tools" => Ok(AndroidSdkNdkTools),
             "android-ndk" => Ok(AndroidNdk),
             "android-open-jdk" => Ok(AndroidOpenJdk),
+            "android-all" => Ok(AndroidAll),
             "ios" => Ok(Ios),
             "tvos" => Ok(TvOs),
             "appletv" => Ok(AppleTV),
