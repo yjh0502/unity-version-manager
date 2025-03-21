@@ -91,7 +91,7 @@ impl ModulePkgInstaller {
             }
             cpio
         };
-    
+
         let tar_output = tar_child.wait_with_output()?;
         if !tar_output.status.success() {
             return Err(format!(

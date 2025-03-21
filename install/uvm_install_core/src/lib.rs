@@ -66,3 +66,23 @@ pub fn handle_notfound(program: &str, e: std::io::Error) -> Error {
     }
     e.into()
 }
+
+fn path_contains_subpath<P: AsRef<Path>, Q: AsRef<Path>>(path: P, subpath: Q) -> bool {
+    let path = path.as_ref();
+    let subpath = subpath.as_ref();
+
+    path.components()
+        .collect::<Vec<_>>()
+        .windows(subpath.components().count())
+        .any(|window| window == subpath.components().collect::<Vec<_>>())
+}
+
+fn path_to_editor_root<'a>(path: &'a Path) -> &'a Path {
+    let is_editor = path.file_name().unwrap() == "Editor";
+    if is_editor {
+        path.parent().unwrap()
+    } else {
+        path_to_editor_root(path.parent().unwrap())
+    }
+}
+

@@ -55,49 +55,14 @@ impl InstallHandler for EditorXzInstaller {
 
 impl InstallHandler for ModuleXzInstaller {
     fn install_handler(&self) -> Result<()> {
+        let destination = path_to_editor_root(self.destination());
+        let installer = self.installer();
+
         debug!(
             "install module from xz archive {} to {}",
-            self.installer().display(),
-            self.destination().display()
+            installer.display(),
+            destination.display(),
         );
-
-        let destination = self.destination();
-        let installer = self.installer();
-        let destination = if destination.ends_with("Editor/Data/PlaybackEngines/iOSSupport") {
-            debug!("adjust install destination for iOSSupport module");
-            destination.parent()
-                .ok_or_else(|| {
-                    io::Error::new(
-                        io::ErrorKind::NotFound,
-                        format!(
-                            "Can't determine destination for {} and destination {}",
-                            &installer.display(),
-                            destination.display()
-                        ),
-                    )
-                })?
-        } else {
-            destination
-        };
-
-        let destination = if destination.ends_with("Editor/Data/PlaybackEngines") {
-            destination
-                .parent()
-                .and_then(|f| f.parent())
-                .and_then(|f| f.parent())
-                .ok_or_else(|| {
-                    io::Error::new(
-                        io::ErrorKind::NotFound,
-                        format!(
-                            "Can't determine destination for {} and destination {}",
-                            &installer.display(),
-                            destination.display()
-                        ),
-                    )
-                })?
-        } else {
-            destination
-        };
 
         DirBuilder::new().recursive(true).create(destination)?;
         self.untar(installer, destination)
